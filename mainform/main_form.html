@@ -1,0 +1,174 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" href="../../trunk/css/main/style.css" />
+    <link rel="stylesheet" href="../../trunk/css/main/layout-default-latest.css" />
+    <style type="text/css">
+
+            /* customize the borders to avoid double-borders */
+        .ui-layout-pane {
+            border:			0; /* override layout-default-latest.css */
+
+        }
+        .ui-layout-pane-north ,
+        .ui-layout-pane-south {
+
+            overflow:		hidden;
+        }
+        .ui-layout-pane-west ,
+        .ui-layout-pane-east {
+        }
+        .ui-layout-pane-center	{
+            border-left:	0;
+            border-right:	0;
+        }
+        .inner-center {
+
+        }
+
+            /* add shading to outer sidebar-panes */
+        .outer-west ,
+        .outer-east {
+        overflow-x: hidden ;
+
+        }
+        .middle-west ,
+        .middle-east {
+
+        }
+
+            /* remove padding & scrolling from panes that are 'containers' for nested layouts */
+        .outer-center ,
+        .middle-center {
+            border:			0; /* cosmetic */
+            padding:		0;
+            overflow:		hidden;
+        }
+
+            /*
+            *	customize borders on panes/resizers to make pretty
+            */
+
+            /*
+            *	add borders to resizers when pane is 'closed'
+            *
+            *.ui-layout-resizer-closed	{ border:			1px solid #BBB; }
+            */
+            /*
+            *	show both borders when the resizer is 'dragging'
+            */
+        .ui-layout-resizer-west-dragging ,
+        .ui-layout-resizer-east-dragging {
+
+        }
+        .ui-layout-resizer-north-dragging ,
+        .ui-layout-resizer-south-dragging {
+
+        }
+
+    </style>
+
+    <script src="../../trunk/js/libs/jquery.min.js"></script>
+    <script src="../../trunk/js/libs/jquery-ui.min.js"></script>
+
+    <script src="../../trunk/js/libs/jquery.tmpl.js"></script>
+    <script src="../../trunk/js/libs/jquery.layout-latest.js"></script>
+
+    <script src="../../trunk/js/nicEdit.js"></script>
+
+
+
+    <script>
+
+        var outerLayout, middleLayout, innerLayout;
+
+        $(document).ready(function () {
+        //    document.oncontextmenu = function(){return false;};
+            outerLayout = $('body').layout({
+                center__paneSelector:	".outer-center"
+                ,	west__paneSelector:		".outer-west"
+                ,	east__paneSelector:		".outer-east"
+                ,	west__size:				205
+                ,	east__size:				205
+                ,	spacing_open:			8 // ALL panes
+                ,	spacing_closed:			12 // ALL panes
+                //,	north__spacing_open:	0
+                //,	south__spacing_open:	0
+                ,	north__maxSize:			222
+                ,	south__maxSize:			222
+            });
+
+            middleLayout = $('div.outer-center').layout({
+                center__paneSelector:	".middle-center"
+                ,	west__paneSelector:		".middle-west"
+                ,	east__paneSelector:		".middle-east"
+                ,	west__size:				0
+                ,	east__size:				0
+                ,	spacing_open:			8  // ALL panes
+                ,	spacing_closed:			12 // ALL panes
+            });
+
+            innerLayout = $('div.middle-center').layout({
+                center__paneSelector:	".inner-center"
+                ,	west__paneSelector:		".inner-west"
+                ,	east__paneSelector:		".inner-east"
+                ,	west__size:				75
+                ,	east__size:				75
+                ,	spacing_open:			8  // ALL panes
+                ,	spacing_closed:			12  // ALL panes
+                ,	west__spacing_closed:	8
+                ,	east__spacing_closed:	12
+            });
+         //   $.get('mail_form.html', {}, function (templateBody) {
+         //       $.tmpl(templateBody).appendTo('.message_inside');
+         //   });
+            $.get('mail.html', {}, function (templateBody) {
+                $.tmpl(templateBody).appendTo('.mail');
+            });
+            $("#mb_content_wrapper").draggable();
+         });
+
+
+    </script>
+
+
+</head>
+<body>
+<div class="outer-center">
+
+    <div class="middle-center">
+
+        <div class="inner-center">
+            <div class="message_inside">
+                <div class="mail"></div>
+            </div>
+
+        </div>
+        <div class="ui-layout-north">
+            <div class="my_social_life"></div>
+        </div>
+
+
+    </div>
+
+
+</div>
+
+<div class="outer-west">
+    <div class="mail_message"></div>
+    <div class="settings_message"></div>
+</div>
+<div class="outer-east">
+    <div class="categories"></div>
+    <div class="about"></div>
+</div>
+
+<div class="ui-layout-north">
+    <div class="main_ui_layout_north"></div>
+</div>
+<div class="ui-layout-south">
+    <div class="footer"></div>
+</div>
+</body>
+</html>

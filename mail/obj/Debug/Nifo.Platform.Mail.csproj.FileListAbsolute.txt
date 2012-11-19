@@ -1,0 +1,7 @@
+C:\inetpub\wwwroot\Nifo.Platform\services\mail\bin\Nifo.Platform.Mail.dll
+C:\inetpub\wwwroot\Nifo.Platform\services\mail\bin\Nifo.Platform.Mail.pdb
+C:\inetpub\wwwroot\Nifo.Platform\services\mail\bin\EntityFramework.dll
+C:\inetpub\wwwroot\Nifo.Platform\services\mail\bin\EntityFramework.xml
+C:\inetpub\wwwroot\Nifo.Platform\services\mail\obj\Debug\Nifo.Platform.Mail.dll
+C:\inetpub\wwwroot\Nifo.Platform\services\mail\obj\Debug\Nifo.Platform.Mail.pdb
+C:\inetpub\wwwroot\Nifo.Platform\services\mail\obj\Debug\Nifo.Platform.Mail.csprojResolveAssemblyReference.cache

@@ -1,0 +1,781 @@
+﻿<!DOCTYPE HTML>
+<html lang="en-US" manifest="player.manifest">
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+    <meta charset="UTF-8">
+    <title>Player</title>
+    <link rel="stylesheet" href="../trunk/css/index/style.css"/>
+
+    <script src="../trunk/js/nifo/core/common.js" type="text/javascript"></script>
+    <script src="../trunk/js/libs/jquery.min.js" type="text/javascript"></script>
+    <script src="../trunk/js/libs/jquery-ui.min.js" type="text/javascript"></script>
+    <script src="../trunk/js/libs/store.js" type="text/javascript"></script>
+    <script src="../trunk/js/nifo/elements/player/playlist.js" type="text/javascript"></script>
+
+
+    <link rel="stylesheet" href="../trunk/css/jquery-ui.css" type="text/css"/>
+    <link rel="stylesheet" href="../trunk/css/player/player.css" type="text/css"/>
+    <link rel="stylesheet" href="../trunk/css/player/playercontrols.css" type="text/css"/>
+    <link rel="stylesheet" href="css/player/playercanvas.css" type="text/css"/>
+
+</head>
+
+<body>
+
+
+<div id="container">
+    <canvas id="c"> </canvas>
+    <div id="draggable" class="ui-widget-content">
+        <div id="fs-container">
+            <div id="fs-inner">
+                <div id="fs">
+                    <div id="top_control">
+                        <div class="l_top_control">
+                            <div class="t_volume">
+                                <div class="t_left_panel_1">
+                                    <div id="soundOnOff" switch="1" class="t_vol_dot vp_soundOnOff"></div>
+                                </div>
+                                <div class="t_left_panel_2">
+                                    <div class="t_vol_slider">
+                                        <div class='volume_helper'></div>
+                                        <div id="slider-vertical" class="vp_volume" style="height:13px;width:56px"><span
+                                                class="l_vol_progress"></span></div>
+                                    </div>
+                                </div>
+                                <div class="t_left_panel_3">
+                                    <div class="t_vol_circle vp_volumeMax"></div>
+                                </div>
+                            </div>
+                            <div class="t_left_panel_4">
+                                <div class="t_shuffle"></div>
+                            </div>
+                        </div>
+                        <div class="top_center">
+                            <div class="t_l_center_time"><span id="currenttime" class="time "></span></div>
+                            <div class="t_time_body">
+					            <span id="progress">
+                                             <div id="smallVideoContainer">
+                                                 <div class="small_video"
+                                                      style="display: none; position: absolute; margin-top: 40px;">
+                                                     <!-- <div class="ajax_loader ajax_loader_active"></div> -->
+                                                     <video id="smallVideo" class="smallVideo"
+                                                            style="display: none;padding-left: 20px; margin-top: 30px;"></video>
+                                                     <span class="t"></span>
+                                                 </div>
+                                             </div>
+                                    <div id="current" class="vp_timeline"><span class="r_corner"></span></div>
+                                    <div class='progress_helper'></div>
+					            </span>
+                            </div>
+                            <div class="t_r_center_time"><span id="duration" class="timer "></span></div>
+                        </div>
+                        <div class="r_top_control">
+                            <div class="t_left_panel_5">
+                                <div class="t_repeat"></div>
+                            </div>
+                            <div class="t_left_panel_6">
+                                <div id="previousVideo" switch="1" class="t_prev vp_previous"></div>
+                                <div class="t_play"></div>
+                                <div id="nextVideo" switch="1" class="t_next vp_next"></div>
+                            </div>
+                            <div class="t_left_panel_7">
+                                <div class="t_close">
+                                    <span class="p_half"></span>
+                                    <span id="enter-exit-fs" class="p_full"></span>
+                                    <span class="p_close"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="about_video">
+                        <div>
+                            <span class="v_genre"></span>
+                            <span class="v_name"></span>
+                            <span class="v_produce"></span>
+                            <span class="v_rezo"></span>
+                        </div>
+                    </div>
+                    <div id="divPlayer">
+                        <div>
+
+                            <video id="myvideo" class="draggable halfsize" poster="" preload="auto" style="visibility: hidden">
+                            </video>
+                            <div class="bottom_info_share">
+                                <h1><b>Share</b> this video</h1>
+                                <span class="share_close">
+                            </div>
+                        </div>
+
+                        <div class="bottom_info">
+
+                            <div><span>1</span></div>
+                            <div><span>2</span></div>
+                            <div><span>3</span></div>
+
+                        </div>
+
+                        <div class="drag" style="">
+                            <div id="controls">
+                                <div id="controles">
+                                    <ul>
+                                        <li class="progress_bar">
+                                            <div class="dot vp_soundOnOff"></div>
+                                            <div class="bar"></div>
+                                            <div class='fullscreen_volume_helper'></div>
+                                            <div class="circle vp_volumeMax"></div>
+                                        </li>
+                                        <li class="play_pause">
+                                            <div class="pl_prev vp_previous"></div>
+                                            <div class="t_play play"></div>
+                                            <div class="pl_next vp_next"></div>
+                                        </li>
+                                        <li class="full_screen">
+                                            <div id="fullscreen" class="f_screen"
+                                                 onclick="player.exitFullscreen()"></div>
+                                        </li>
+                                    </ul>
+                                    <div id="tracer">
+                                        <span class="time"></span>
+
+                                        <div id="f_progress" style="margin-top: 15px">
+                                            <div id="progressbar" class="vp_timeline"></div>
+                                        </div>
+                                        <div class='fullscreen_progress_helper'></div>
+                                        <span class="timer "></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <canvas id="backCanvas" origin-clean="false"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+
+
+
+
+        fullscreenInProgress = false
+        $("#top_control").hover(
+                function () {
+                    $("#about_video").animate({ opacity:1 }, 300);
+                    $(".top_center").addClass('hover_top');
+                    $(".buffered").addClass('hover_buffered');
+                    $("#current .ui-slider-range").addClass('progress_hover');
+                    $("#current a").addClass('progress_dot');
+                    $(".progress_helper").addClass('hover_helper');
+                }).mouseleave(function () {
+                    $("#about_video").animate({ opacity:0 }, 300);
+                    $(".top_center").removeClass('hover_top');
+                    $(".buffered").removeClass('hover_buffered');
+                    $("#current .ui-slider-range").removeClass('progress_hover');
+                    $("#current a").removeClass('progress_dot');
+                    $(".progress_helper").removeClass('hover_helper');
+                });
+        $(".pl_next").click(
+                function () {
+                    $(this).animate({  opacity:0.9  }, 25);
+                }).mouseleave(function () {
+                    $(this).animate({  opacity:1  }, 50);
+                });
+        $(".pl_prev").click(
+                function () {
+                    $(this).animate({  opacity:0.9  }, 25);
+                }).mouseleave(function () {
+                    $(this).animate({  opacity:1  }, 50);
+                });
+
+        $("#container").bind('fullscreen', function()
+        {
+
+                        window.setTimeout(
+                                function(){
+                                     $(".p_full").click();
+                                    //$("#container").draggable();
+                                    // player.enterFullscreenMode($.browser,true)
+                                },1000)
+        }
+        );
+
+        $("#container").draggable(
+                {
+                    drag:function (event, ui) {
+
+                        var el = $("#container")
+                        var leftPosition = el.offset().left
+                        var rigthCornerPosition = leftPosition + el.width()
+                        var allowedOverLength = 0; //el.width() / 4
+
+                        if (rigthCornerPosition - allowedOverLength > screen.width - 20) {
+                            console.log('entering fullscreen here: rcp = ' + rigthCornerPosition + ' allowedOverLength = ' + allowedOverLength)
+                                    // el.trigger('fullscreen')
+                          //  return false;
+
+                            /*
+                                                   */
+
+                        }
+                    }
+
+                }
+        );
+
+
+
+
+        playList.init();
+        player = new Player();
+        player.init(playList.items);
+        $(".bottom_info div span").click(function () {
+            $(".bottom_info_share").fadeIn(300);
+        });
+        $(".share_close").click(function () {
+            $(".bottom_info_share").fadeOut(300);
+        });
+
+    });
+
+
+    var Player = ( function()
+    {
+        Player = function()
+        {
+            this.video = $("#myvideo")
+            this.canvas = $("#c")
+            this.playpause = $(".t_play")
+            this.repeat = $(".t_repeat")
+            this.total = $("#total")
+            this.buffered = $("#buffered")
+            this.progress = $(".vp_timeline")
+            this.volume = $('.vp_volume,.bar')
+            this.duration = $('#duration,.timer')
+            this.currentTime = $('#currenttime,.time')
+            this.hasHours = false
+            this.fullscreenButton = $(".p_full")
+            this.closescreenButton = $(".p_close")
+            this.soundOnOff = $(".vp_soundOnOff")
+            this.soundMax = $(".vp_volumeMax")
+            this.videosObj = []
+            this.currentVideo = 0
+            this.resolutions = $("#resolutions")
+            this.changeQualityClass = "changeQuality"
+            this.playList = $("#playList")
+            this.nextVideoObj = $('.vp_next')
+            this.previousVideoObj = $('.vp_previous')
+            this.changeProgressManual = 0
+            this.infoBar = "#about_video"
+            this.smallVideoObj = $(".smallVideo")
+
+            this.video.crossOrigin = ""
+
+            this.togglePlayback = function () {
+                (this.video[0].paused) ? this.video[0].play() : this.video[0].pause();
+            }
+            this.initializeSmallVideo = function(){
+                this.smallVideoObj[0].src = this.videosObj[this.currentVideo].videoUrl;
+            }
+            togglePlayback = function () {
+                (this.video[0].paused) ? this.video[0].play() : this.video[0].pause();
+            }
+            this.onFullScreenEnter = function () {
+                var fsElement = document.querySelector(document.webkitCancelFullScreen ? "#fs" : "#fs-container");
+                fsElement.onwebkitfullscreenchange = player.onFullScreenExit;
+                fsElement.onmozfullscreenchange = player.onFullScreenExit;
+                player.video.removeClass('halfsize');
+                player.video.width(screen.width);
+                $("#about_video").fadeOut(0);
+                $('#top_control').fadeOut(0);
+                $('#controls').animate({ marginTop:-((screen.height / 100) * 22) }, 0);
+                $('#controls').fadeIn(300);
+                $('.bottom_info').fadeOut(300);
+                $('.bottom_info_share').fadeOut(300);
+            }
+            this.enterFullscreenMode = function (browser, callOnDirect) {
+
+                if (fullscreenInProgress == true)
+                {
+                    console.log("enterFullscreenMode - already running");
+                    return;
+
+                }
+
+                fullscreenInProgress = true
+                console.log("enterFullscreenMode");
+                var fsElement = document.querySelector(document.webkitCancelFullScreen ? "#fs" : "#fs-container");
+                fsElement.onwebkitfullscreenchange = player.onFullScreenEnter;
+                fsElement.onmozfullscreenchange = player.onFullScreenEnter;
+
+                if (fsElement.webkitRequestFullScreen) {
+                    fsElement.webkitRequestFullScreen(Element.ALLOW_KEYBOARD_INPUT);
+                } else {
+                    this.onFullScreenEnter();
+                    fsElement.mozRequestFullScreen();
+                    window.addEventListener("mozfullscreenchange", player.onFullScreenExit, true);
+                }
+                // controls.video.resizeTo(screen.availWidth,screen.availHeight)
+                player.video.width(screen.availWidth);
+                player.video.height(screen.availHeight); //715px
+                if (callOnDirect)
+                {
+                    //this.onFullScreenEnter()
+                }
+                fullscreenInProgress = false
+            }
+            this.onFullScreenExit = function () {
+
+                if (document.mozFullScreen) {
+                    return false;
+                }
+                console.log("Exited fullscreen initiated from iframe");
+                player.video.addClass('halfsize');
+                player.video.width("800");
+                player.video.height("420");
+                $('#top_control').fadeIn(300);
+                $('#controls').fadeOut(500);
+                $("#about_video").fadeIn(0);
+                $("#about_video").animate({ opacity:0 }, 0);
+                $('.bottom_info').fadeIn(300);
+            }
+            this.exitFullscreen = function () {
+                console.log("exitFullscreen()");
+                document.cancelFullScreen();
+                this.onFullScreenExit();
+            }
+            this.closeVideoPlayer = function (browser) {
+                console.log("Close Video Player");
+                player.stopVideo();
+                document.getElementById("fs-container").style.display = "none";
+            }
+            this.volumePosition = function (vol) {
+                if (vol == undefined) {
+                    vol = 0.3;
+                }
+
+                if (vol == 1) {
+                    this.soundMax.addClass("vol_max")
+                }
+                else {
+                    this.soundMax.removeClass("vol_max")
+                }
+
+                if (vol == 0) {
+                    this.soundOnOff.attr("switch", 0);
+                    this.soundOnOff.addClass("off");
+                    this.volume.slider("value", 0);
+                    this.video[0].volume = 0;
+                    return;
+                }
+                else {
+                    this.soundOnOff.attr("switch", 1);
+                    this.soundOnOff.removeClass("off");
+                    this.volume.slider("value", vol * 100);
+                    console.log("sound level:" + vol)
+                    this.video[0].volume = vol;
+                }
+            }
+            this.updateInfo = function (videoObj) {
+                $('#about_video div .v_genre').text(videoObj.genre);
+                $('#about_video div .v_name').text(videoObj.name);
+                $('#about_video div .v_produce').text(videoObj.producer);
+                $('#about_video div .v_rezo').text(videoObj.resolution[0]);
+            }
+            this.changeVideo = function (videoObj) {
+                $("#buffered").removeClass('buffered_end');
+                $(".buffered").removeClass('hover_buffered_end');
+                this.playpause.toggleClass("");
+                this.video[0].poster = videoObj.poster;
+                this.video[0].src = this.getCorrectVideoUrl(videoObj.videoUrl);
+                this.video[0].load();
+                this.progress.slider("value", 0);
+                this.createResolutionObj(videoObj);
+                this.updateInfo(videoObj);
+                this.initializeSmallVideo();
+            }
+            this.nextPreviousVideo = function (button) {
+                if (button == "next") {
+                    if ((this.videosObj.length - 1) > this.currentVideo) {
+                        this.currentVideo = this.currentVideo + 1;
+                        this.changeVideo(this.videosObj[this.currentVideo]);
+                        player.playpause.toggleClass("paused");
+                        this.video[0].play();
+                        if ((this.videosObj.length - 1) == this.currentVideo) {
+                            this.nextVideoObj.addClass("inactive_next");
+                        }
+                        if (this.previousVideoObj.hasClass("inactive_prev"))
+                            this.previousVideoObj.removeClass("inactive_prev");
+                    }
+                }
+                else if (button == "previous") {
+                    if (this.currentVideo > 0) {
+                        this.currentVideo = this.currentVideo - 1;
+                        this.changeVideo(this.videosObj[this.currentVideo]);
+                        player.playpause.toggleClass("paused");
+                        this.video[0].play();
+                        if (this.currentVideo <= 0)
+                            this.previousVideoObj.addClass("inactive_prev");
+                        if (this.nextVideoObj.hasClass("inactive_next"))
+                            this.nextVideoObj.removeClass("inactive_next");
+                    }
+                }
+                var videoObj = this.videosObj[this.currentVideo];
+                this.updateInfo(videoObj);
+
+            }
+            this.stopVideo = function () {
+                this.video[0].pause();
+                this.video[0].currentTime = 0;
+            }
+            this.createResolutionObj = function (videoObj) {
+                var resolutionList = '';
+                $.each(videoObj.resolution, function (index, value) {
+                    resolutionList += '<li><a href="javascript:void(0)" class="changeQuality" value="' + value + '">' + value + 'p</a></li>';
+                });
+                this.resolutions.html(resolutionList);
+            }
+            this.changeResolution = function (resolution) {
+                if (resolution == 480) {
+                    var currentTime = player.video[0].currentTime;
+
+                    player.video[0].pause();
+                    player.video[0].src = player.videosObj[(player.currentVideo + 1)].videoUrl;
+                    player.video[0].addEventListener('canplay', function () {
+                        if (currentTime != false) {
+                            player.video[0].currentTime = currentTime;
+                            currentTime = false;
+                        }
+                        player.video[0].play();
+                    });
+                }
+            }
+            this.makePlaylist = function (videosObj) {
+                var playlistLi = "";
+                $.each(videosObj, function (videoId, videoObj) {
+                    playlistLi += "<li><span class='playlistVideo' videoId='" + videoId + "'>" + videoObj.name + "</span></li>";
+                });
+                this.playList.html(playlistLi);
+            }
+            this.getBufferedInPerc = function () {
+                var buf = 0;
+                try {
+                    buf = this.video[0].buffered.end(0);
+                }
+                catch (ex) {
+
+                    return 0;
+                }
+                var res = Math.floor(buf) / Math.floor(this.video[0].duration);
+                //console.log("++ getBufferedInPerc : " + res);
+                return res;
+            }
+            this.getCorrectVideoUrl = function (url) {
+                var browser = $.browser;
+
+                if (browser.chrome || browser.mozilla) {
+                    var videoUrl = url.substr(0, url.length - 3);
+                    videoUrl += "ogv";
+                }
+                else if (browser.safari || browser.msie) {
+                    var videoUrl = url.substr(0, url.length - 3);
+                    videoUrl += "mp4";
+                }
+
+                return videoUrl;
+            }
+
+        }
+
+
+
+        Player.prototype.init = function (videosObj) {
+
+            //# region  execute logic
+            this.videosObj = videosObj;
+            // this.makePlaylist(videosObj);
+            this.changeVideo(videosObj[0])
+
+            //# region actions bindings
+            this.soundOnOff.click(function () {
+                if (player.soundOnOff.attr("switch") == 1) {
+                    player.volumePosition(0);
+                }
+                else player.volumePosition();
+            });
+
+            this.soundMax.click(function () {
+                player.volumePosition(1);
+            });
+
+            this.playpause.click(function () {
+                player.togglePlayback();
+            });
+
+            this.video.click(function () {
+                player.togglePlayback();
+            });
+
+            $("." + this.changeQualityClass).live("click", function () {
+                player.changeResolution($(this).attr("value"));
+            });
+
+            this.nextVideoObj.live("click", function () {
+                if (!$(this).hasClass("inactive_next"))
+                    player.nextPreviousVideo("next");
+            });
+            this.previousVideoObj.live("click", function () {
+                if (!$(this).hasClass("inactive_prev"))
+                    player.nextPreviousVideo("previous");
+            });
+
+            $(".playlistVideo").live("click", function () {
+                player.changeVideo(player.videosObj[$(this).attr("videoId")]);
+                player.currentVideo = $(this).attr("videoId");
+            });
+
+            this.fullscreenButton.click(function () {
+                player.enterFullscreenMode($.browser);
+            });
+
+            this.closescreenButton.click(function () {
+                var userAgent = navigator.userAgent.toLowerCase();
+                var browser = $.browser;
+                player.closeVideoPlayer(browser);
+            });
+
+            if (videosObj[0].autostart == 1) {
+                this.video[0].addEventListener('loadedmetadata', function () {
+                    player.video[0].currentTime = videosObj[0].currentTime;
+                });
+
+                this.video[0].play();
+            }
+            this.previousVideoObj.addClass("inactive_prev");
+            if (videosObj.length <= 1)
+                this.nextVideoObj.addClass("inactive_next");
+            var videoObj = this.videosObj[0];
+            this.updateInfo(videoObj);
+            var video = this.video[0];
+
+
+            this.initializeSmallVideo();
+
+
+
+            this.progress.mousemove(function(e){
+                //controls.smallVideoObj[0].currentTime
+                if(e.toElement.className == "ui-slider-handle ui-state-default ui-corner-all progress_dot ui-state-hover")
+                    return false;
+                // $(".ajax_loader").addClass("ajax_loader_active");
+                try
+                {
+                    $(".small_video").css("left",(e.offsetX - 60));
+                    player.smallVideoObj.css("left",(e.offsetX - 60));
+                    var curTime = (player.video[0].duration * e.offsetX) / e.currentTarget.clientWidth;
+                    curTime = curTime + (4*player.video[0].duration / 353);
+                    player.smallVideoObj[0].currentTime = curTime;
+                    var curTimeInt = parseInt(curTime);
+                    var curTimeStr = formatTime(curTime)
+                    $(".t").text(curTimeStr);
+
+                }
+                catch(err)
+                {
+
+                }
+
+                // $(".ajax_loader").removeClass("ajax_loader_active");
+
+
+            }).mouseenter(function(e){
+                        player.smallVideoObj.css("display","block");
+                        $(".small_video").css("display","block");
+
+                    }).mouseleave(function(e){
+                        player.smallVideoObj.css("display","none");
+                        $(".small_video").css("display","none");
+
+
+
+                    });
+
+            this.volume.slider({
+                orientation:"horizontal",
+                range:"min",
+                min:0,
+                max:100,
+                value:50,
+                slide:function (event, ui) {
+                    //video.volume = (ui.value / 100);
+                    $("#amount").val(ui.value);
+                    //swich off mute style
+                    if (ui.value == 0) {
+                        player.volumePosition(0);
+                    }
+                    else {
+                        var value = ui.value / 100;
+                        player.volumePosition(value);
+                        console.log("volume position: " + value)
+                        if (value == 1) {
+                            player.soundMax.addClass("vol_max");
+                        }
+                    }
+                }
+            });
+
+            this.progress.slider({
+                range:"min",
+                value:0,
+                min:1,
+                max:100,
+                slide:function (event, ui) {
+                    player.changeProgressManual = 1;
+                    player.currentTime.text(formatTime(parseInt((ui.value) * player.video[0].duration / 100)), player.hasHours);
+                },
+                change:function (event, ui) {
+                    if (player.changeProgressManual == 1) {
+                        player.video[0].currentTime = (ui.value) * player.video[0].duration / 100;
+                        player.changeProgressManual = 0;
+                        player.video[0].play();  /// can be remove
+                    }
+                }
+            });
+
+            $("#top_control").hover(
+                    function () {
+                        if (player.getBufferedInPerc() > 0.97) {
+                            $(".buffered").addClass('hover_buffered_end');
+                        }
+                    }).mouseleave(function () {
+                        $(".buffered").removeClass('hover_buffered_end');
+
+                    });
+
+
+            this.progress.append($("<span id='buffered' class='buffered' ></span>) "));
+
+            $("#amount").val(player.volume.slider("value"));
+
+            player.total.css("width", (353));
+
+            video.addEventListener("play", function () {
+                player.playpause.toggleClass("paused");
+                var cw = video.clientWidth;
+                var ch = video.clientHeight;
+                player.canvas[0].width = cw;
+                player.canvas[0].height = ch;
+                var context = player.canvas[0].getContext('2d');
+                var back = document.createElement('canvas');
+
+                var backcontext = back.getContext('2d');
+                backcontext.width = cw;
+                backcontext.height = ch;
+
+                draw(player.video[0],context,backcontext,cw,ch)
+                // draw1(v,context,backcontext,cw,ch);
+            });
+            video.addEventListener("pause", function () {
+                player.playpause.toggleClass("paused");
+            });
+
+            video.addEventListener("ended", function () {
+                if ((player.videosObj.length - 1) > player.currentVideo) {
+                    player.playpause.toggleClass("paused");
+                    player.currentVideo = player.currentVideo + 1;
+                    player.changeVideo(player.videosObj[player.currentVideo]);
+
+                    if ((player.videosObj.length - 1) == player.currentVideo)
+                        player.nextVideoObj.addClass("inactive_next");
+                    if (player.previousVideoObj.hasClass("inactive_prev"))
+                        player.previousVideoObj.removeClass("inactive_prev");
+                    player.video[0].play();
+                }
+                else {
+                    player.previousVideoObj.addClass("inactive_prev");
+                    player.currentVideo = 0;
+                    if ((player.videosObj.length - 1) > player.currentVideo)
+                        player.nextVideoObj.removeClass("inactive_next");
+                    player.changeVideo(player.videosObj[0]);
+                }
+            });
+
+            video.addEventListener("canplay", function () {
+                player.hasHours = (video.duration / 3600) >= 1.0;
+                player.duration.text(formatTime(video.duration, player.hasHours));
+                player.currentTime.text(formatTime(this.currentTime), player.hasHours);
+            }, false);
+
+
+            video.addEventListener("timeupdate", function () {
+                player.currentTime.text(formatTime(video.currentTime, player.hasHours));
+                var progress = Math.floor(video.currentTime) / Math.floor(video.duration);
+                if (player.changeProgressManual == 0)
+                    player.progress.slider("value", (progress * 100));
+            }, false);
+
+            video.addEventListener("progress", function () {
+
+                var bufferedInPerc = player.getBufferedInPerc();
+                if (bufferedInPerc > 0.9) {
+                    $("#buffered").addClass('buffered_end');
+                    $("#buffered").attr("style", "width:353px");
+                    return;
+                }
+                //console.log("bufferedInPerc : " + bufferedInPerc);
+                var w = Math.floor(bufferedInPerc * 353) + 'px';
+                $("#buffered").attr("style", "width: " + w);
+
+                $("#buffered").attr("style", "width: " + w);
+            }, false);
+
+            video.addEventListener("loadedmetadata", function (e) {
+                //    var width = this.videoWidth,
+                //   var height = this.videoHeight;
+            }, false);
+
+        }
+        return Player;
+    })();
+
+    function draw1(v,c,w,h) {
+        if(v.paused || v.ended) return false;
+        c.drawImage(v,0,0,w,h);
+        setTimeout(draw1,20,v,c,w,h);
+    }
+
+    function draw (v,c,bc,w,h) {
+
+        if(v.paused || v.ended) return false;
+        // First, draw it into the backing canvas
+        c.drawImage(v,0,0,w,h);
+        //setTimeout(function(){ draw(v,c,bc,w,h); }, 0);
+
+        // Grab the pixel data from the backing canvas
+        var idata = c.getImageData(0,0,w,h);
+        var data = idata.data;
+        // Loop through the pixels, turning them grayscale
+        for(var i = 0; i < data.length; i+=4) {
+            var r = data[i];
+            var g = data[i+1];
+            var b = data[i+2];
+            var brightness = (6*r+4*g+b)>>>3;
+            data[i] = brightness;
+            data[i+1] = brightness;
+            data[i+2] = brightness;
+        }
+        idata.data = data;
+        // Draw the pixels onto the visible canvas
+        c.putImageData(idata,0,0);
+        // Start over!
+        setTimeout(function(){ draw(v,c,bc,w,h); }, 10);
+    }
+</script>
+</body>
+</html>

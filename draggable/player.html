@@ -1,0 +1,34 @@
+$("#container").bind('fullscreen', function()
+{
+
+window.setTimeout(
+function(){
+$(".p_full").click();
+//$("#container").draggable();
+// player.enterFullscreenMode($.browser,true)
+},1000)
+}
+);
+
+$("#container").draggable(
+{
+drag:function (event, ui) {
+
+var el = $("#container")
+var leftPosition = el.offset().left
+var rigthCornerPosition = leftPosition + el.width()
+var allowedOverLength = 0; //el.width() / 4
+
+if (rigthCornerPosition - allowedOverLength > screen.width - 20) {
+console.log('entering fullscreen here: rcp = ' + rigthCornerPosition + ' allowedOverLength = ' + allowedOverLength)
+// el.trigger('fullscreen')
+//  return false;
+
+/*
+*/
+
+}
+}
+
+}
+);

@@ -1,0 +1,42 @@
+<div id="mb_content_wrapper" class="mb_content_wrapper">
+    <span class="mb_close"></span>
+    <div class="mb_content">
+        <h2>Mail <span></span> </h2>
+        <div class="mb_content_inner">
+            <form class="send_form" id="send_form" action="" onsubmit="">
+                <div id="f_name" class="pad" >
+                    <label>to</label>
+                    <input class="focus" id="fullname" type="text" name="name" placeholder=""/>
+                </div>
+                <div id="f_email" class="pad" >
+                    <label>cc</label>
+                    <input class="focus" id="email" placeholder="" type="text"  name="email" />
+                </div>
+                <div id="f_phone" class="pad" >
+                    <label>subject</label>
+                    <input id="phone" placeholder="" type="text" name="phone" class="focus phone" />
+                </div>
+                <div id="f_message" class="f_message pad">
+                    <label>message</label>
+                    <textarea style="resize: none;" placeholder="" id="about" class="text-input focus" type="textarea" name="about" ></textarea>
+                </div>
+                <div id="f_send" class="f_send">
+                    <input type="submit" value="" id="send" class="send"/>
+                    <div class='loader-feedback'></div>
+                </div>
+            </form>
+            <div class="suggest2">
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(".mb_content_wrapper").draggable();
+        new nicEditor({fullPanel : true }).panelInstance('about');
+
+    });
+
+</script>
