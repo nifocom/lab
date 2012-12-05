@@ -1,0 +1,51 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+	<head>
+		<title>flashPlayer</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<style type="text/css" media="screen">
+		html, body { height:100%; background-color: #009900;}
+		body { margin:0; padding:0; overflow:hidden; }
+		#flashContent { width:100%; height:100%; }
+		</style>
+		<script >
+ function initialize() {
+        /* Check whether the browser is IE. If so, flashVideoPlayer is
+window.videoPlayer. Otherwise, it's document.videoPlayer. The
+videoPlayer is the ID assigned to the <object> and <embed> tags. */
+        var isIE = navigator.appName.indexOf("Microsoft") != -1;
+        flashVideoPlayer = (isIE) ? window['flashPlayer'] : document.getElementById('flashPlayer');
+	
+		//flashVideoPlayer.setStateChangeFunc('obj.log')
+    }
+
+    /* When the user clicks the play button in the form, update the videoStatus text area, and call the playVideo() function within the SWF file, passing it the URL of the FLV file. */
+    function callFlashPlayVideo() {
+    
+		flashVideoPlayer.loadVideoById('http://nifo.dev.s3.amazonaws.com/3494dd6188f2457c85949cb60265f7c4494c9a03418f45fa814954360c9b9772.flv')
+      //  flashVideoPlayer.loadVideoById("http://www.helpexamples.com/flash/video/" + video);
+		
+    }
+		</script>
+	</head>
+	<body onload="initialize()">
+		<input type='button' onclick="callFlashPlayVideo()">aaaaaa</input>
+		<div id="flashContent">
+			<embed	classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" width="90%" height="90%" id="flashPlayer" align="middle">
+				<param name="movie" value="flashPlayer.swf" />
+				<param name="quality" value="high" />
+				<param name="bgcolor" value="#009900" />
+				<param name="play" value="true" />
+				<param name="loop" value="false" />
+				<param name="wmode" value="direct" />
+				<param name="scale" value="showall" />
+				<param name="menu" value="false" />
+				<param name="devicefont" value="false" />
+				<param name="salign" value="" />
+				<param name="allowScriptAccess" value="sameDomain" />
+		
+			</embed>
+	
+		</div>
+	</body>
+</html>
